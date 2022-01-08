@@ -117,3 +117,8 @@ dotplot(results)
 # Best model seems to be LDA, summarizing its stats below:
 
 print(fit.lda)
+
+# Forecasting the validation set with LDA parameters
+
+predictions <- predict(fit.lda, validation)
+confusionMatrix(predictions, validation$Species)
