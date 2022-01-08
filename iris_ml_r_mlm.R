@@ -9,7 +9,7 @@ library(caret)
 # Easy Load:
 # Attaching the iris dataset to the environment
 data("iris")
-# renaming the dataset
+# Renaming the dataset
 dataset <- iris
 
 # CSV load
@@ -76,4 +76,44 @@ featurePlot(x,y, plot="box") # Each class value has different lengths but a lot 
 scales <- list(x=list(relation="free"), y=list(relation="free"))
 featurePlot(x,y, plot="density", scales=scales)
 
+# Algorithim creation and evaluation
+# 10-fold crossvalidation setup.
 
+control <- trainControl(method="cv", number=10)
+metric <- "Accuracy"
+
+# Model building, set seed is used before each to ensure comparable test conditions
+# Linear algorithim: Linear Discriminant Analysis (LDA)
+
+fit.lda <- train(Species~., data=dataset, method="lda", metric=metric, trControl=control)
+
+# Non-linear algorithims:
+# CART (Classification and Regression Trees)
+
+set.seed(7)
+fit.cart <- train(Species~., data=dataset, method="rpart", metric=metric, trControl=control)
+
+# kNN (k-Nearest Neighbors)
+
+set.seed(7)
+fit.knn <- train(Species~., data=dataset, method="knn", metric=metric, trControl=control)
+
+# Complex non-linear algorithims, may need to install kernlab & randomForest packages:
+# SVM (Support Vector Machines with a linear kernel)
+
+set.seed(7)
+fit.svm <- train(Species~., data=dataset, method="svmRadial", metric=metric, trControl=control)
+
+# Random Forest
+set.seed(7)
+fit.rf <- train(Species~., data=dataset, method="rf", metric=metric, trControl=control)
+
+# Model accuracy summaries & plots
+
+results <- resamples(list(lda=fit.lda, cart=fit.cart, knn=fit.knn, svm=fit.svm, rf=fit.rf))
+summary(results)
+dotplot(results)
+
+# Best model seems to be LDA, summarizing its stats below:
+
+print(fit.lda)
