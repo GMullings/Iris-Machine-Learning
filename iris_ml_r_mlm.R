@@ -54,9 +54,26 @@ cbind(freq=table(dataset$Species), percentage=percentage)
 summary(dataset)
 
 # Going to graph univariate plots to visualize variable distributions
-# Splitting input and output variable columns
+# Splitting input and output variable columns for plotting
 
 x <- dataset[,1:4]
 y <- dataset[,5]
 
-# Boxplot for each attribute on one image
+# Boxplot for each attribute on one image.
+
+par(mfrow=c(1,4))
+  for(i in 1:4) {
+    boxplot(x[,i], main=names(iris)[i])
+  }
+
+# Barplot for "y" is going to reaffirm what was learned from species distribution. To see the plot de-hash the line below:
+# plot(y)
+
+# Multivariate plots ahoy! Scatter, Box and Whisker, and Density plots incoming.
+
+featurePlot(x,y, plot="ellipse")
+featurePlot(x,y, plot="box") # Each class value has different lengths but a lot of overlap in sepal width and length.
+scales <- list(x=list(relation="free"), y=list(relation="free"))
+featurePlot(x,y, plot="density", scales=scales)
+
+
