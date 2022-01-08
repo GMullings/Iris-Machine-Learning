@@ -4,7 +4,9 @@ setwd("~/R/iris_ml")
 # Ensure you have the latest versions of GGPlot2 and IPred installed, they're common hiccups
 
 install.packages("caret")
+install.packages("ellipse")
 library(caret)
+library(ellipse)
 
 # Easy Load:
 # Attaching the iris dataset to the environment
